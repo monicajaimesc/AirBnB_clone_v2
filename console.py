@@ -49,15 +49,18 @@ class HBNBCommand(cmd.Cmd):
                 for param in param_list:
                     key_value = param.split('=')
                     if len(key_value) == 2:
-                        # Take the value in position 1
-                        if type(key_value[1]) == str:
-                            key_value[1].replace("\"","")
-                            key_value[1].replace(''',''')
-                            key_value[1].replace('_',' ')
-
-                    print('key: {}\nValue: {}'.format(data[0], data[1]))
-            print(obj)
-            print(param_list)
+                        key = key_value[0]
+                        value = key_value[1]
+                        # Evaluation equal to ASCII (using ord)
+                        if ord(value[0]) == 34 and ord(value[-1]) == 34:
+                            set_value = value.replace('"', '')
+                        elif "." in value:
+                            set_value = float(value)
+                        else:
+                            set_value = int(value)
+                        setattr(obj, key, set_value)
+                    else:
+                        pass
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
