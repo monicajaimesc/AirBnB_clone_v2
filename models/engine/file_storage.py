@@ -8,6 +8,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+from shlex import split
 
 
 class FileStorage:
@@ -20,11 +21,20 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """returns a dictionary
         Return:
             returns a dictionary of __object
         """
+        #if cls:
+        #    print("######################")
+        #    show_obj = cls.__name__
+        #    for key in self.__objects:
+        #        # Split the name and the id
+        #        cls_name = key.split(".")
+        #        if cls_name[0] is show_obj:
+        #            print(self.__objects[key])
+        #            # return self.__object[key]
         return self.__objects
 
     def new(self, obj):
@@ -55,3 +65,12 @@ class FileStorage:
                     self.__objects[key] = value
         except FileNotFoundError:
             pass
+
+    def delete(self, obj = None):
+        """public instance method to delete an object from __objects
+        """
+        if obj:
+            to_delete = "{}.{}".format(type(obj).__name__, obj.id)
+            if self.__objects[to_delete]:
+                del self.__objects[to_delete]
+                self.save()
