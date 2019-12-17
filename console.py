@@ -54,6 +54,7 @@ class HBNBCommand(cmd.Cmd):
                         # Evaluation equal to ASCII (using ord)
                         if ord(value[0]) == 34 and ord(value[-1]) == 34:
                             set_value = value.replace('"', '')
+                            set_value = set_value.replace("_"," ")
                         elif "." in value:
                             set_value = float(value)
                         else:
