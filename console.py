@@ -49,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
                 for param in param_list:
                     key_value = param.split('=')
                     if len(key_value) == 2:
-                        # Take the value
+                        # Take the value in position 1
                         if type(key_value[1]) == str:
                             key_value[1].replace("\"","")
                             key_value[1].replace(''',''')
