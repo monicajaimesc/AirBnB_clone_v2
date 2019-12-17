@@ -47,9 +47,14 @@ class HBNBCommand(cmd.Cmd):
                 param_list = my_list[1:]
                 # kwargs {}
                 for param in param_list:
-                    data = param.split('=')
-                    if len(data) != 2:
-                        pass
+                    key_value = param.split('=')
+                    if len(key_value) == 2:
+                        # Take the value
+                        if type(key_value[1]) == str:
+                            key_value[1].replace("\"","")
+                            key_value[1].replace(''',''')
+                            key_value[1].replace('_',' ')
+
                     print('key: {}\nValue: {}'.format(data[0], data[1]))
             print(obj)
             print(param_list)
