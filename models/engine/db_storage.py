@@ -21,6 +21,8 @@ class DBStorage:
     __engine = None
     __session = None
 
+    my_list = [State, City]
+
     def __init__(self):
         # mysql is the dialect and mysqldb is the driver
         self.__engine = db.create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -34,15 +36,18 @@ class DBStorage:
     def all(self, cls=None):
         """ select all the data or of any class
         """
-        # Create the metadata
-        new_list = [State, City]
-        get_data = self.__session()
+        _dicti = {}
         if cls is None:
-            return get_data.query(User, State,
-                                  City, Amenity, Place,
-                                  Review).all()
+            for tipo in self.types:
+                for obj in self.__session.query(tipo).all():
+                    key = "{}.{}".format(obj.__class__.__name__, obj.id)
+                    _dicti[key] = obj
+
         else:
-            return get_data.query(cls).all()
+            for obj in self.__session.query(cls):
+                key = "{}.{}".format(cls.__class__.__name__,obj.id)
+                _dicti[key] = obj
+        return _dicti
 
     def new(self, obj):
         """ Create new object with obj
