@@ -21,8 +21,6 @@ class DBStorage:
     __engine = None
     __session = None
 
-    my_list = [State, City]
-
     def __init__(self):
         # mysql is the dialect and mysqldb is the driver
         self.__engine = db.create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -37,8 +35,9 @@ class DBStorage:
         """ select all the data or of any class
         """
         _dicti = {}
+        my_list = [State, City]
         if cls is None:
-            for tipo in self.types:
+            for tipo in my_list:
                 for obj in self.__session.query(tipo).all():
                     key = "{}.{}".format(obj.__class__.__name__, obj.id)
                     _dicti[key] = obj
