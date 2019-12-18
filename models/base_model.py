@@ -6,14 +6,14 @@ from datetime import datetime
 import uuid
 import models
 
-Base = decalartive_base()
+Base = declarative_base()
 
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
 
-
+    id = Column(string(60), primary_key=True, nullable=False)
     create_at = Column(Datetime, default=datetime.utcnow())
     update_at = Column(Datetime, default=datetime.utcnow())
 
