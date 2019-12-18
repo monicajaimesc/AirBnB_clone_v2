@@ -3,18 +3,12 @@
 import uuid
 import models
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
 
-Base = declarative_base()
-# returns a new base class from which all mapped classes should inherit.
 
 class BaseModel:
     """This class will defines all common attributes/methods
     for other classes
     """
-
-    id = Column(String(60), primary_key=True, nullable=False)
 
 
     def __init__(self, *args, **kwargs):
