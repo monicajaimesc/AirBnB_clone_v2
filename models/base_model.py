@@ -14,9 +14,9 @@ class BaseModel:
     for other classes
     """
 
-    id = Column(string(60), primary_key=True, nullable=False)
-    create_at = Column(Datetime, default=datetime.utcnow())
-    update_at = Column(Datetime, default=datetime.utcnow())
+    id = Column(String(60), primary_key=True, nullable=False)
+    create_at = Column(DateTime, default=datetime.utcnow())
+    update_at = Column(DateTime, default=datetime.utcnow())
 
     def __init__(self, *args, **kwargs):
         """Instantiation of base model class

@@ -21,7 +21,6 @@ class DBStorage:
     __engine = None
     __session = None
 
-
     def __init__(self):
         # mysql is the dialect and mysqldb is the driver
         self.__engine = db.create_engine('mysql+mysqldb://{}:{}@{}/{}'
@@ -36,6 +35,7 @@ class DBStorage:
         """ select all the data or of any class
         """
         # Create the metadata
+        new_list = [State, City]
         get_data = self.__session()
         if cls is None:
             return get_data.query(User, State,
