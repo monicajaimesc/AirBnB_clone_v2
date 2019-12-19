@@ -27,7 +27,8 @@ class DBStorage:
                                       .format(getenv('HBNB_MYSQL_USER'),
                                               getenv('HBNB_MYSQL_PWD'),
                                               getenv('HBNB_MYSQL_HOST'),
-                                              getenv('HBNB_MYSQL_DB')))
+                                              getenv('HBNB_MYSQL_DB')),
+                                         pool_pre_ping=True)
         if getenv('HBNB_MYSQL_ENV') == "test":
             Base.metadata.drop_all(self.__engine)
 
@@ -37,14 +38,13 @@ class DBStorage:
         _dicti = {}
         my_list = [State, City]
         if cls is None:
-            for tipo in my_list:
-                for obj in self.__session.query(tipo).all():
+            for class_type in my_list:
+                for obj in self.__session.query(class_type).all():
                     key = "{}.{}".format(obj.__class__.__name__, obj.id)
                     _dicti[key] = obj
-
         else:
-            for obj in self.__session.query(cls):
-                key = "{}.{}".format(cls.__class__.__name__,obj.id)
+            for obj in self.__session.query(cls).all():
+                key = "{}.{}".format(obj.__class__.__name__, obj.id)
                 _dicti[key] = obj
         return _dicti
 
@@ -66,6 +66,7 @@ class DBStorage:
 
     def reload(self):
         Base.metadata.create_all(self.__engine)
-        Session = sessionmaker(bind=self.__engine,
+        session = sessionmaker(bind=self.__engine,
                                expire_on_commit=False)
-        self.__session = scoped_session(Session)
+        Session = scoped_session(session)
+        self.__session = Session()
