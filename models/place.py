@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 """This is the place class"""
+import models
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
+from sqlalchemy.orm import relationship
 
 
 class Place(BaseModel, Base):
@@ -20,7 +22,9 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
 
-    __tablename__ = 'places'
+    place_amenity = Table("place_amenity", Base.metadata,
+                          Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+                          Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
 
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -31,5 +35,22 @@ class Place(BaseModel, Base):
     max_guest = Column(Integer, default=0, nullable=False)
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
-    longitude = Column(Float, nullable=True)
+    longitude = Column(Float, nullable=False)
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+
     amenity_ids = []
+
+    @property
+    def amenities(self):
+        """
+        Getter attribute amenities
+        :return: the list of Amenity instances, based on
+        amenity_ids, linked to place
+        """
+        amenities_list = []
+        objs_ = model.storage.all(models.amenity.Amenity)
+        for key in objs_:
+            if objs_[key].place_id == self.id:
+                amenities_list.append(objs_[key])
+        return amenities_list
+
