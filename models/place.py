@@ -2,6 +2,7 @@
 """This is the place class"""
 import models
 from models.base_model import BaseModel, Base
+
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 
@@ -48,7 +49,7 @@ class Place(BaseModel, Base):
         amenity_ids, linked to place
         """
         amenities_list = []
-        objs_ = model.storage.all(models.amenity.Amenity)
+        objs_ = models.storage.all(models.amenity.Amenity)
         for key in objs_:
             if objs_[key].place_id == self.id:
                 amenities_list.append(objs_[key])
