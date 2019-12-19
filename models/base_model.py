@@ -34,8 +34,9 @@ class BaseModel:
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
-        else:
+        if "id" not in kwargs.keys():
             self.id = str(uuid.uuid4())
+        if "create_at" not in kwargs.keys():
             self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
