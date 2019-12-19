@@ -34,8 +34,9 @@ class BaseModel:
                     value = datetime.strptime(value, "%Y-%m-%dT%H:%M:%S.%f")
                 if key != "__class__":
                     setattr(self, key, value)
-        else:
+        if "id" not in kwargs.keys():
             self.id = str(uuid.uuid4())
+        if "create_at" not in kwargs.keys():
             self.created_at = self.updated_at = datetime.now()
 
     def __str__(self):
@@ -44,7 +45,7 @@ class BaseModel:
             returns a string of class name, id, and dictionary
         """
         return "[{}] ({}) {}".format(
-            type(self).__name__, self.id, self.__dict__)
+            type(self).__name__, self.id, self.to_dict())
 
     def __repr__(self):
         """return a string representaion
@@ -67,7 +68,7 @@ class BaseModel:
         my_dict["__class__"] = str(type(self).__name__)
         my_dict["created_at"] = self.created_at.isoformat()
         my_dict["updated_at"] = self.updated_at.isoformat()
-        if "_sa_instance_state" in my_dict.keys():
+        if "_sa_instance_state" in my_dict:
             del my_dict["_sa_instance_state"]
         return my_dict
 

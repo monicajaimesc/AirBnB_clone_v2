@@ -36,15 +36,15 @@ class DBStorage:
         """ select all the data or of any class
         """
         _dicti = {}
-        my_list = [State, City]
+        my_list = ["State", "City"]
         if cls is None:
             for class_type in my_list:
-                for obj in self.__session.query(class_type).all():
-                    key = "{}.{}".format(obj.__class__.__name__, obj.id)
+                for obj in self.__session.query(eval(class_type)).all():
+                    key = "{}.{}".format(type(obj).__name__, obj.id)
                     _dicti[key] = obj
         else:
-            for obj in self.__session.query(cls).all():
-                key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            for obj in self.__session.query(eval(cls)).all():
+                key = "{}.{}".format(type(obj).__name__, obj.id)
                 _dicti[key] = obj
         return _dicti
 
