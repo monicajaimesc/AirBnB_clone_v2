@@ -50,12 +50,22 @@ class Place(BaseModel, Base):
         :return: the list of Amenity instances, based on
         amenity_ids, linked to place
         """
-        amenities_list = []
-        objs_ = models.storage.all(models.amenity.Amenity)
-        for key in objs_:
-            if objs_[key].place_id == self.id:
-                amenities_list.append(objs_[key])
-        return amenities_list
+        return self.amenity_ids
+
+    @amenities.setter
+    def amenities(self, obj):
+        """
+        Setter the data in amebities
+        """
+        if type(obj) == Amenity:
+            self.Add(obj)
+
+        def Add(self, obj):
+            """
+            add data in the obj
+            """
+            self.anebity_ids.append(obj)
+        
 
     @property
     def reviews(self):
