@@ -41,7 +41,6 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, back_populates="my_places")
 
-    amenity_ids = []
 
     @property
     def amenities(self):
