@@ -6,6 +6,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from models.review import Review
 from models.amenity import Amenity
+from os import getenv
 
 
 class Place(BaseModel, Base):
