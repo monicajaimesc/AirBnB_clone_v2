@@ -37,7 +37,8 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=False)
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
+    reviews = relationship("Review", cascade="all, delete", backref="reviews_places")
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, backref="amaneties_places")
 
     amenity_ids = []
 
@@ -61,10 +62,10 @@ class Place(BaseModel, Base):
         Getter attribute reviews
         :return: the list of reviews
         """
-        review_list = []
-        objs_ = model.storage.all(models.review.Review)
-        for key in objs_:
-            if objs_[id] == self.id:
-                review_list.append(objs_[id])
-        return review_list
+        review_dict = {}
+        objs_ = model.storage.all(Review)
+        for key, value in objs_.items():
+            if value.place_id == self.id:
+                review_dict[key] = value
+        return review_dict
 
