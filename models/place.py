@@ -7,9 +7,6 @@ from sqlalchemy.orm import relationship
 from models.review import Review
 from models.amenity import Amenity
 
-place_amenities = Table("place_amenity", Base.metadata,
-                        Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-                        Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
 
 class Place(BaseModel, Base):
     """This is the class for Place
@@ -27,6 +24,9 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = "places"
+    place_amenities = Table("place_amenity", Base.metadata,
+                        Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
+                        Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     name = Column(String(128), nullable=False)
