@@ -41,31 +41,32 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     # amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, back_populates="my_places")
     reviews = relationship("Review", cascade="all,delete", backref="place")
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
     amenity_ids = []
+    if getenv("HBNB_TYPE_STORAGE") == "db":
+        amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
 
+    else:
 
+        @property
+        def amenities(self):
+            """
+            amenety list with append method
+            :return: list of amenity instances
+            """
+            amenity_list = []
+            results = models.storage.all(Amenity)
+            for amenity in results.values():
+                if amenity.id in self.amenity_ids:
+                    amenity_list.append(amenity)
+            return amenity_list
 
-    @property
-    def amenities(self):
-        """
-        amenety list with append method
-        :return: list of amenity instances
-        """
-        amenity_list = []
-        results = models.storage.all(Amenity)
-        for amenity in results.values():
-            if amenity.id in self.amenity_ids:
-                amenity_list.append(amenity)
-        return amenity_list
-
-    @amenities.setter
-    def amenities(self, obj):
-        """
-        :param obj: ppends place id for amenities
-        """
-        if obj and isinstance(obj, Amenity):
-            type(self).amenity_ids.append(obj.id)
+        @amenities.setter
+        def amenities(self, obj):
+            """
+            :param obj: ppends place id for amenities
+            """
+            if obj and isinstance(obj, Amenity):
+                type(self).amenity_ids.append(obj.id)
         
 
     @property
