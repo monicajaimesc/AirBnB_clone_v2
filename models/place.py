@@ -24,9 +24,10 @@ class Place(BaseModel, Base):
         amenity_ids: list of Amenity ids
     """
     __tablename__ = "places"
-    place_amenity = Table("place_amenity", Base.metadata,
-                            Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-                            Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False))
+    metadata = Base.metadata
+    place_amenity = Table("place_amenity", metadata,
+                            Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False),
+                            Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False))
 
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
@@ -38,8 +39,7 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0, nullable=False)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
-    reviews = relationship("Review", cascade="all, delete", backref="reviews_places")
-    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, backref="amaneties_places")
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, back_populates="my_places")
 
     amenity_ids = []
 
