@@ -36,7 +36,7 @@ class DBStorage:
         """ select all the data or of any class
         """
         _dicti = {}
-        my_list = ["State", "City", "User", "Place", "Review"]
+        my_list = ["State", "City", "User", "Place", "Review", "Amenity"]
         if cls is None:
             for class_type in my_list:
                 for obj in self.__session.query(eval(class_type)).all():
