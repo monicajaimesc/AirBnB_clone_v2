@@ -56,15 +56,15 @@ class Place(BaseModel, Base):
         return amenities_list
 
     @property
-    def reviews(self)
-    """
-    Getter attribute reviews
-    :return: the list of reviews
-    """
-    review_list = []
-    objs_ = model.storage.all(models.review.Review)
-    for key in objs_:
-        if objs_[id] == self.id:
-            review_list.append(objs_[id])
-    return review_list
+    def reviews(self):
+        """
+        Getter attribute reviews
+        :return: the list of reviews
+        """
+        review_list = []
+        objs_ = model.storage.all(models.review.Review)
+        for key in objs_:
+            if objs_[id] == self.id:
+                review_list.append(objs_[id])
+        return review_list
 
