@@ -2,7 +2,6 @@
 """This is the place class"""
 import models
 from models.base_model import BaseModel, Base
-
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 
@@ -22,6 +21,7 @@ class Place(BaseModel, Base):
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
+    __tablename__ = "places"
 
     place_amenity = Table("place_amenity", Base.metadata,
                           Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
@@ -54,4 +54,17 @@ class Place(BaseModel, Base):
             if objs_[key].place_id == self.id:
                 amenities_list.append(objs_[key])
         return amenities_list
+
+    @property
+    def reviews(self)
+    """
+    Getter attribute reviews
+    :return: the list of reviews
+    """
+    review_list = []
+    objs_ = model.storage.all(models.review.Review)
+    for key in objs_:
+        if objs_[id] == self.id:
+            review_list.append(objs_[id])
+    return review_list
 
