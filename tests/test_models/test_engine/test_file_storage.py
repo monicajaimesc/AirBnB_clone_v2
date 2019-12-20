@@ -91,6 +91,27 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
+    def test_delete_one(self):
+        """ Tests method. delete obj from current DB session """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        user = User()
+        storage.delete(user)
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
+
+    def test_delete_three(self):
+        """ Tests the delete method by passing in garbage """
+        storage = FileStorage()
+        all_users = storage.all(User)
+        user_count_init = len(all_users.keys())
+        storage.delete("unicorn")
+        all_users = storage.all(User)
+        user_count_after = len(all_users.keys())
+        self.assertEqual(user_count_init, user_count_after)
+
 
 if __name__ == "__main__":
     unittest.main()
