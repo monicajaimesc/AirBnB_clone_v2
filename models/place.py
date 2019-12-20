@@ -41,8 +41,7 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     # amenities = relationship("Amenity", secondary="place_amenity", viewonly=False, back_populates="my_places")
     reviews = relationship("Review", cascade="all,delete", backref="place")
-    amenities = relationship("Amenity", secondary="place_amenity",
-                                 viewonly=False)
+    amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
     amenity_ids = []
 
 
@@ -76,7 +75,7 @@ class Place(BaseModel, Base):
         :return: the list of reviews
         """
         review_dict = {}
-        objs_ = model.storage.all(Review)
+        objs_ = models.storage.all(Review)
         for key, value in objs_.items():
             if value.place_id == self.id:
                 review_dict[key] = value
