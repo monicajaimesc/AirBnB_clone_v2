@@ -46,25 +46,23 @@ class Place(BaseModel, Base):
     @property
     def amenities(self):
         """
-        Getter attribute amenities
-        :return: the list of Amenity instances, based on
-        amenity_ids, linked to place
+        amenety list with append method
+        :return: list of amenity instances
         """
-        return self.amenity_ids
+        amenity_list = []
+        results = models.storage.all(Amenity)
+        for amenity in results.values():
+            if amenity.id in self.amenity_ids:
+                amenity_list.append(amenity)
+        return amenity_list
 
     @amenities.setter
     def amenities(self, obj):
         """
-        Setter the data in amebities
+        :param obj: ppends place id for amenities
         """
-        if type(obj) == Amenity:
-            self.Add(obj)
-
-        def Add(self, obj):
-            """
-            add data in the obj
-            """
-            self.anebity_ids.append(obj)
+        if obj and isinstance(obj, Amenity):
+            type(self).amenity_ids.append(obj.id)
         
 
     @property
