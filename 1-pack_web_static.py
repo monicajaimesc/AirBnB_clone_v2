@@ -1,13 +1,15 @@
 #!/usr/bin/python3
 # Generates a .tgz archive from the contents of the web_static folder
 
-from fabric.api import *
 from datetime import datetime
+from fabric.api import *
 
+
+time = datetime.now()
 
 def do_pack():
     """do Packs to create a .tgz file"""
-    time = datetime.now()
+    
     file_ = 'versions/web_static_{}{}{}{}{}{}.tgz'\
                 .format(time.year, time.month, time.day, time.hour, time.minute, time.second)
     local('mkdir -p versions')
