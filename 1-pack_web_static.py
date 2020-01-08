@@ -1,17 +1,15 @@
 #!/usr/bin/python3
 # Generates a .tgz archive from the contents of the web_static folder
 
-from fabric.api import *
 from datetime import datetime
-
-time = datetime.now()
+from fabric.api import local
 
 
 def do_pack():
     """do Packs to create a .tgz file"""
-
+    t = datetime.now()
     file_ = 'versions/web_static_{}{}{}{}{}{}.tgz'\
-                .format(time.year, time.month, time.day, time.hour, time.minute, time.second)
+            .format(t.year, t.month, t.day, t.hour, t.minute, t.second)
     local('mkdir -p versions')
     # Compress files using tar:
     # tar -cvzf <name of tarball>.tgz /path/to/source/folder
