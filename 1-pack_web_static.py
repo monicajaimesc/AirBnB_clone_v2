@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-# Generates a .tgz archive from the contents of the web_static folder
+# Generate a .tgz archive from the contents of the web_static folder
 
 from datetime import datetime
 from fabric.api import local
