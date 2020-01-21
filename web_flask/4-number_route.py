@@ -58,7 +58,7 @@ def number(n):
     :param n is an integer:
     :return: display a number
     """
-    return "{:d} is a number ".format(n)
+    return "{:d} is a number".format(n)
 
 
 if __name__ == '__main__':
