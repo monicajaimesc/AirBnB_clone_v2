@@ -11,12 +11,21 @@ app = Flask(__name__)
 # specify URL
 @app.route("/", strict_slashes=False)
 def Hello_route():
+    """
+    define first route
+
+    :return: url return a string
+    """
     # what that URL returns
     return "Hello HBNB!"
 
 
 @app.route("/hbnb", strict_slashes=False)
 def hbnb():
+    """
+    define second route
+    :return: url returns a second string
+    """
     return "HBNB"
 
 
