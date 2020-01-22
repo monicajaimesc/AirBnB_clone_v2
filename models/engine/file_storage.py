@@ -11,6 +11,10 @@ from models.review import Review
 from shlex import split
 
 
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
+
 class FileStorage:
     """This class serializes instances to a JSON file and
     deserializes JSON file to instances
@@ -26,16 +30,24 @@ class FileStorage:
         Return:
             returns a dictionary of __object
         """
-        # if cls:
-        #    print("######################")
-        #    show_obj = cls.__name__
-        #    for key in self.__objects:
-        #        # Split the name and the id
-        #        cls_name = key.split(".")
-        #        if cls_name[0] is show_obj:
-        #            print(self.__objects[key])
-        #            # return self.__object[key]
-        return self.__objects
+        show_object = {}
+        # string validation, part of the class
+        # state enter like a string
+        if cls:
+            if type(cls) is str and cls in classes:
+                for key, val in self.__objects.items():
+                    # Split the name and the id
+                    if cls == key.split('.')[0]:
+                        show_object[key] = val
+            # if the name of the class is part of the class
+            # state enter like a function
+            elif cls.__name__ in classes:
+                for key, val in self.__objects.items():
+                    if cls.__name__ == key.split('.')[0]:
+                        show_object[key] = val
+        else:
+            return self.__objects
+        return show_object
 
     def new(self, obj):
         """sets __object to given obj
