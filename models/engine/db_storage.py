@@ -15,7 +15,6 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 import sqlalchemy as db
 
 
-
 class DBStorage:
     """DBStorage class"""
     __engine = None
@@ -24,10 +23,10 @@ class DBStorage:
     def __init__(self):
         # mysql is the dialect and mysqldb is the driver
         self.__engine = db.create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(getenv('HBNB_MYSQL_USER'),
-                                              getenv('HBNB_MYSQL_PWD'),
-                                              getenv('HBNB_MYSQL_HOST'),
-                                              getenv('HBNB_MYSQL_DB')),
+                                         .format(getenv('HBNB_MYSQL_USER'),
+                                                 getenv('HBNB_MYSQL_PWD'),
+                                                 getenv('HBNB_MYSQL_HOST'),
+                                                 getenv('HBNB_MYSQL_DB')),
                                          pool_pre_ping=True)
         if getenv('HBNB_MYSQL_ENV') == "test":
             Base.metadata.drop_all(self.__engine)
@@ -69,4 +68,10 @@ class DBStorage:
         session = sessionmaker(bind=self.__engine,
                                expire_on_commit=False)
         self.__session = scoped_session(session)
-        
+
+    def close(self):
+        """
+        public method, call remove()
+        :return:
+        """
+        self.__session.remove()
