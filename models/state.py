@@ -18,7 +18,7 @@ class State(BaseModel, Base):
     if getenv("HBNB_TYPE_STORAGE") == "db":
         name = Column(String(128), nullable=False)
         cities = relationship("City", cascade="all, delete",
-                              backref="my_state")
+                              backref="state")
     else:
         name = ""
 
@@ -30,7 +30,7 @@ class State(BaseModel, Base):
         """
         list_cities = []
         # city is an object and will be store in store_objects
-        store_objects = models.storage.all(City)
+        store_objects = models.storage.all("City")
         for key, city in store_objects.items():
             if city.state_id == self.id:
                 list_cities.append(city)
