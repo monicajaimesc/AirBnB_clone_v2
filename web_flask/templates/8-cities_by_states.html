@@ -8,12 +8,12 @@
         <UL>
         {% for item in states|sort(attribute='name') %}
             <LI>{{ item.id }}: <B>{{ item.name }}</B>
-            <UL>
+            <LI>
                 {% for city in item.cities|sort(attribute='name') %}
-                <LI>{{ city.id }}: <B>{{ city.name }}</B>
-            </LI>
-                {% endfor %}
+                <UL>{{ city.id }}: <B>{{ city.name }}</B>
             </UL>
+                {% endfor %}
+            </LI>
         {% endfor %}
         </UL>
     </BODY>
