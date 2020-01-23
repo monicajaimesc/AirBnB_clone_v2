@@ -16,7 +16,7 @@ def states(id=None):
     function that will display a State object (founded by its id)
     :return: display HTML with the state and it respective cities (sorted)
     """
-    states = storage.all("State").values()
+    states = storage.all("State")
     return render_template("9-states.html", states=states, id=id)
 
 
